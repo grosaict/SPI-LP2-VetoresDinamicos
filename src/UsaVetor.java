@@ -6,14 +6,30 @@ public class UsaVetor {
 		int tamanhoInicial = 4;
 		Vetor vetor = new Vetor(tamanhoInicial);
 		
-		vetor.insere(1, 5000);
-		vetor.insereFinal(10);
-		vetor.insereFinal(5);
-		vetor.insereFinal(12);
-		vetor.insereInicio(200);
-		vetor.insere(5, 1000);
-
+		System.out.println("INCLUSÕES");
 		
+		vetor.insereFinal(11);
+		vetor.insereFinal(22);
+		vetor.insereInicio(222);
+		vetor.insereFinal(33);
+		vetor.insere(0, 1111);
+		vetor.insereFinal(44);
+		vetor.insere(3, 2222);
+		vetor.insereFinal(55);
+		vetor.insere(3, 3333);
+		
+		vetor.ListaVetor();
+		
+		System.out.println("\nEXCLUSÃO INÍCIO");
+		vetor.removeInicio();
+		vetor.ListaVetor();
+		
+		System.out.println("\nEXCLUSÃO FINAL");
+		vetor.removeFinal();
+		vetor.ListaVetor();
+		
+		System.out.println("\nEXCLUSÃO POSIÇÃO");
+		vetor.remove(3);
 		vetor.ListaVetor();
 		
 	}

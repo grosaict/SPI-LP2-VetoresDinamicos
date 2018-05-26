@@ -11,70 +11,80 @@ public class Vetor {
 	}
 	
 	public void insereFinal(int valor){
-		if (this.capacity <= this.size){
-			aumentaVetor();
-		}
-		setVetor(this.size, valor);
-		this.size++;
+		insere(this.size, valor);
 	}
 	
 	public void insereInicio(int valor){
-		insere(1, valor);
+		insere(0, valor);
 	}
 	
 	public void insere(int indice, int valor){
-		if (indiceValido(indice)){
+		if (indiceValido(indice, 0)){
 			if (this.capacity <= this.size){
 				aumentaVetor();
 			}
 			/* reposiciona os valores do vetor desde a maior posição utilizada
 			 * até a posição seguinte ao que se deseja incluir o novo valor
 			 */
-			for (int i=(this.size-1); i>=(indice-1); i--){ 
-				setVetor(i+1, getVetor(i));
+			for (int i=this.size; i>indice; i--){ 
+				set(i, get(i-1));
 			}
-			setVetor(indice-1, valor);
+			set(indice, valor);
 			this.size++;
 		}
 	}
 	
-	private boolean indiceValido(int indice) {
-		if (indice >= 1 && indice <= (this.size+1)){
-			return true;
-		}else{
-			System.err.println("Posição inexistente!!!");
-			return false;
-		}
-	}
-
-	public int get(int indice){
-		return vetor[indice];
-	}
-	
-	public void set(int indice, int valor){
-		
-	}
-	
 	public void removeFinal(){
-		
+		remove(this.size-1);
 	}
 	
 	public void removeInicio(){
-		
+		remove(0);
 	}
 	
 	public void remove(int indice){
-		
+		if (indiceValido(indice, 1)){
+			/* reposiciona os valores do vetor desde a posição a excluir
+			 * até a última posição
+			 */
+			for (int i=indice; i<this.size; i++){ 
+				set(i, get(i+1));
+			}
+			this.size--;
+		}
+	}
+	
+	private boolean indiceValido(int indice, int operacao) {
+		String msg = "Posição inexistente!!!";
+		/* operacao:
+		 * 		0 = incluir (permite inclusão no final do vetor)
+		 * 		1 = excluir
+		 */
+		switch (operacao){
+		case 0:
+			if (indice >= 0 && indice <= this.size){
+				return true;
+			}
+		case 1:
+			if (isEmpty()){
+				msg = "Vetor vazio!!!";
+			}else{
+				if (indice >= 0 && indice < this.size){
+					return true;
+				}
+			}
+		}
+		System.err.println(msg);
+		return false;
 	}
 	
 	private void aumentaVetor() {
 		this.capacity *= 2;
 		int [] novoVetor = new int [this.capacity];
 		for (int i=0; i<this.size; i++){
-			novoVetor[i] = this.vetor[i];
+			novoVetor[i] = get(i);
 		}
 		this.vetor = novoVetor;
-		
 	}
 	
 	public void ListaVetor() {
@@ -82,19 +92,19 @@ public class Vetor {
 			System.err.println("Vetor vazio!!!");
 		}else{
 			for (int i=0; i<this.size; i++){
-				System.out.println("["+(i+1)+"] "+this.vetor[i]);
+				System.out.println("["+i+"] "+this.vetor[i]);
 			}
 		}	
 	}
 	
-	public int getVetor(int indice) {
+	private int get(int indice) {
 		return this.vetor[indice];
 	}
 
-	public void setVetor(int indice, int valor) {
+	private void set(int indice, int valor) {
 		this.vetor[indice] = valor;
 	}
-
+	
 	public int Size(){
 		return this.size;
 	}
