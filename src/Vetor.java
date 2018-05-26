@@ -19,6 +19,7 @@ public class Vetor {
 	}
 	
 	public void insere(int indice, int valor){
+		System.out.print("["+String.format("%04d", indice)+"] "+String.format("%04d", valor)+" ");
 		if (indiceValido(indice, 0)){
 			if (this.capacity <= this.size){
 				aumentaVetor();
@@ -43,12 +44,13 @@ public class Vetor {
 	}
 	
 	public void remove(int indice){
+		System.out.print("["+String.format("%04d", indice)+"] N/A  ");
 		if (indiceValido(indice, 1)){
 			/* reposiciona os valores do vetor desde a posição a excluir
 			 * até a última posição
 			 */
-			for (int i=indice; i<this.size; i++){ 
-				set(i, get(i+1));
+			for (int i=(indice+1); i<this.size; i++){ 
+				set(i-1, get(i));
 			}
 			this.size--;
 		}
@@ -74,12 +76,20 @@ public class Vetor {
 				}
 			}
 		}
-		System.err.println(msg);
+		System.out.print(msg);
 		return false;
 	}
 	
 	private void aumentaVetor() {
-		this.capacity *= 2;
+		/* expansão limitada a 100 posições no momento
+		 * em que a capacidade do vetor for maior do que 100
+		 */
+		if (this.capacity > 100){
+			this.capacity += 100;
+		}else{
+			this.capacity *= 2;
+		}
+		
 		int [] novoVetor = new int [this.capacity];
 		for (int i=0; i<this.size; i++){
 			novoVetor[i] = get(i);
@@ -89,20 +99,29 @@ public class Vetor {
 	
 	public void ListaVetor() {
 		if (isEmpty()){
-			System.err.println("Vetor vazio!!!");
+			System.out.println("Vetor vazio!!!");
 		}else{
 			for (int i=0; i<this.size; i++){
-				System.out.println("["+i+"] "+this.vetor[i]);
+				System.out.println("["+String.format("%04d", i)+"] "+String.format("%04d", get(i)));
 			}
 		}	
 	}
 	
 	private int get(int indice) {
-		return this.vetor[indice];
+		try{
+			return this.vetor[indice];
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println(e.getMessage());
+			return -1;
+		}
 	}
 
 	private void set(int indice, int valor) {
-		this.vetor[indice] = valor;
+		try{
+			this.vetor[indice] = valor;
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public int Size(){

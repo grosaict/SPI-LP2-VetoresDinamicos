@@ -1,37 +1,59 @@
+import java.util.Random;
+import java.util.Scanner;
 
 public class UsaVetor {
 	
 	public static void main(String[] args) {
 		
-		int tamanhoInicial = 4;
+		int iteracoes, metodo, tamanhoInicial = 4;
 		Vetor vetor = new Vetor(tamanhoInicial);
 		
-		System.out.println("INCLUSÕES");
+		Scanner l = new Scanner(System.in);
+		Random r = new Random();
 		
-		vetor.insereFinal(11);
-		vetor.insereFinal(22);
-		vetor.insereInicio(222);
-		vetor.insereFinal(33);
-		vetor.insere(0, 1111);
-		vetor.insereFinal(44);
-		vetor.insere(3, 2222);
-		vetor.insereFinal(55);
-		vetor.insere(3, 3333);
+		//incicializa com 200 posições
+		for (int i=0;i<200;i++){
+			vetor.insereFinal(i+3000);
+		}
 		
-		vetor.ListaVetor();
-		
-		System.out.println("\nEXCLUSÃO INÍCIO");
-		vetor.removeInicio();
-		vetor.ListaVetor();
-		
-		System.out.println("\nEXCLUSÃO FINAL");
-		vetor.removeFinal();
-		vetor.ListaVetor();
-		
-		System.out.println("\nEXCLUSÃO POSIÇÃO");
-		vetor.remove(3);
-		vetor.ListaVetor();
-		
-	}
+		System.out.println("\nInforme a quantidade de iterações para testagem: ");
+		iteracoes = l.nextInt();
 
+		System.out.print(">ITER< SIZE CPTY OPERAC [INDI] VALOR/MENSAGEM");
+		for (int i=0;i<iteracoes;i++){
+			metodo = r.nextInt(6)+1;
+			System.out.print("\n>"+String.format("%04d", (i+1))+"< "+String.format("%04d", vetor.Size())+" "+String.format("%04d", vetor.Capacity())+" ");
+			switch (metodo){
+			case 1:
+				System.out.print("InsIni ");
+				vetor.insereInicio(i);
+				break;
+			case 2:
+				System.out.print("InsFim ");
+				vetor.insereFinal(i);
+				break;
+			case 3:
+				System.out.print("InsPos ");
+				vetor.insere(r.nextInt(200), i);
+				break;
+			case 4:
+				System.out.print("RemIni ");
+				vetor.removeInicio();
+				break;
+			case 5:
+				System.out.print("RemFim ");
+				vetor.removeFinal();
+				break;
+			case 6:
+				System.out.print("RemPos ");
+				vetor.remove(r.nextInt(vetor.Capacity()));
+				break;
+			default:
+				System.out.print(metodo+" ");
+			}
+		}
+		
+		System.out.println("\n\n>>> VETOR <<<");
+		vetor.ListaVetor();
+	}
 }
