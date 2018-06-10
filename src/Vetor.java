@@ -19,7 +19,6 @@ public class Vetor {
 	}
 	
 	public void insere(int indice, int valor){
-		System.out.print("["+String.format("%04d", indice)+"] "+String.format("%04d", valor)+" ");
 		if (indiceValido(indice, 0)){
 			if (this.capacity <= this.size){
 				aumentaVetor();
@@ -44,11 +43,8 @@ public class Vetor {
 	}
 	
 	public void remove(int indice){
-		System.out.print("["+String.format("%04d", indice)+"] N/A  ");
 		if (indiceValido(indice, 1)){
-			/* reposiciona os valores do vetor desde a posição a excluir
-			 * até a última posição
-			 */
+			// reposiciona os valores do vetor desde a posição a excluir até a última posição
 			for (int i=(indice+1); i<this.size; i++){ 
 				set(i-1, get(i));
 			}
@@ -56,39 +52,31 @@ public class Vetor {
 		}
 	}
 	
-	private boolean indiceValido(int indice, int operacao) {
-		String msg = "Posição inexistente!!!";
+	private boolean indiceValido(int indice, int operacao) throws ArrayIndexOutOfBoundsException{
 		/* operacao:
 		 * 		0 = incluir (permite inclusão no final do vetor)
-		 * 		1 = excluir
-		 */
+		 * 		1 = excluir */
 		switch (operacao){
 		case 0:
-			if (indice >= 0 && indice <= this.size){
+			if (!(indice >= 0 && indice <= this.size)){
+				throw new ArrayIndexOutOfBoundsException("Posição inexistente");
+			} else {
 				return true;
 			}
 		case 1:
-			if (isEmpty()){
-				msg = "Vetor vazio!!!";
-			}else{
-				if (indice >= 0 && indice < this.size){
-					return true;
-				}
+			if (!(indice >= 0 && indice < this.size)){
+				throw new ArrayIndexOutOfBoundsException("Posição inexistente");
+			} else {
+				return true;
 			}
 		}
-		System.out.print(msg);
 		return false;
 	}
 	
 	private void aumentaVetor() {
-		/* expansão limitada a 100 posições no momento
-		 * em que a capacidade do vetor for maior do que 100
-		 */
-		if (this.capacity > 100){
-			this.capacity += 100;
-		}else{
-			this.capacity *= 2;
-		}
+		// expansão limitada a 300 posições no momento em que a capacidade do vetor for maior do que 300
+		if (this.capacity > 300){	this.capacity += 300; }
+		else{						this.capacity *= 2;   }
 		
 		int [] novoVetor = new int [this.capacity];
 		for (int i=0; i<this.size; i++){
@@ -97,31 +85,12 @@ public class Vetor {
 		this.vetor = novoVetor;
 	}
 	
-	public void ListaVetor() {
-		if (isEmpty()){
-			System.out.println("Vetor vazio!!!");
-		}else{
-			for (int i=0; i<this.size; i++){
-				System.out.println("["+String.format("%04d", i)+"] "+String.format("%04d", get(i)));
-			}
-		}	
-	}
-	
-	private int get(int indice) {
-		try{
-			return this.vetor[indice];
-		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println(e.getMessage());
-			return -1;
-		}
+	public int get(int indice) {
+		return this.vetor[indice];
 	}
 
 	private void set(int indice, int valor) {
-		try{
-			this.vetor[indice] = valor;
-		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println(e.getMessage());
-		}
+		this.vetor[indice] = valor;
 	}
 	
 	public int Size(){
@@ -133,11 +102,7 @@ public class Vetor {
 	}
 	
 	public boolean isEmpty(){
-		if (this.size > 0){
-			return false;
-		}else{
-			return true;
-		}
+		if (this.size > 0){	return false; }
+		else{				return true;  }
 	}
-
 }
